@@ -16,6 +16,8 @@ function _get(id){ var el=_scope().querySelector('#'+id); if(!el) return ''; if(
 function _set(id,v){ var el=_scope().querySelector('#'+id); if(!el) return; if(el.type==='checkbox') el.checked=!!v; else el.value=v; }
 function _downloadBlob(blob,name){ var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); URL.revokeObjectURL(a.href); a.remove(); }
 
+
+
 window.printPDF = function(){ var prev=document.title; var title=_get('title')||'Project'; var fp=_get('fpno')||''; document.title='Project-Triage-'+(fp||title); window.print(); setTimeout(function(){ document.title=prev; }, 500); };
 
 window.exportRTF = function(){
@@ -39,26 +41,42 @@ window.exportRTF = function(){
   _downloadBlob(new Blob([r],{type:'application/rtf'}),'Project-Triage.rtf'); 
 };
 
+window.templateArrayBuffer = null;
+
+// preload template for load DOCX
+if(window.PizZip && window.docxtemplater){
+  fetch('WRC-General.dotx')
+    .then(r => r.arrayBuffer())
+    .then(buf => { window.templateArrayBuffer = buf; })
+    .catch(() => alert('Could not load WRC-General.dotx (Docx does not load locally without serve)'));
+}
+
 window.exportDOCX = function(){
   if(window.PizZip && window.docxtemplater){
-    fetch('WRC-General.dotx').then(function(r){return r.arrayBuffer();}).then(function(buf){
-      try{
-        var zip=new PizZip(buf);
-        var doc=new window.docxtemplater(zip,{paragraphLoop:true,linebreaks:true});
-        var data={}; var els=_scope().querySelectorAll('input,textarea,select');
-        for(var i=0;i<els.length;i++){ var el=els[i]; if(el.id){ data[el.id]=(el.type==='checkbox')?el.checked:el.value; } }
-        doc.setData(data); doc.render();
-        _downloadBlob(doc.getZip().generate({type:'blob'}),'Project-Triage.docx');
-      }catch(e){ alert('DOCX template merge failed: '+e.message); }
-    }).catch(function(){ alert('Could not read WRC-General.dotx.'); });
-  }else if(window.htmlDocx && window.htmlDocx.asBlob){
-    var html='<!doctype html><html><head><meta charset="utf-8"></head><body>'+_scope().innerHTML+'</body></html>';
-    _downloadBlob(window.htmlDocx.asBlob(html),'Project-Triage.docx');
-  }else{
+    if(!window.templateArrayBuffer){
+      alert('Template not loaded yet!');
+      return;
+    }
+    try{
+      var zip = new PizZip(window.templateArrayBuffer);
+      var doc = new window.docxtemplater(zip, { paragraphLoop:true, linebreaks:true });
+      var data = {};
+      document.querySelectorAll('input,textarea,select').forEach(el => {
+        if(el.id) data[el.id] = (el.type==='checkbox') ? el.checked : el.value;
+      });
+      doc.setData(data); 
+      doc.render();
+      _downloadBlob(doc.getZip().generate({type:'blob'}), 'Project-Triage.docx');
+    }catch(e){
+      alert('DOCX template merge failed: ' + e.message);
+    }
+  } else if(window.htmlDocx && window.htmlDocx.asBlob){
+    var html = '<!doctype html><html><head><meta charset="utf-8"></head><body>'+_scope().innerHTML+'</body></html>';
+    _downloadBlob(window.htmlDocx.asBlob(html), 'Project-Triage.docx');
+  } else{
     alert('DOCX export needs either PizZip+Docxtemplater (template) or html-docx.js (HTML→DOCX).');
   }
 };
-
 window.saveForm = function(){
   var data={}; var els=_scope().querySelectorAll('input,textarea,select');
   for(var i=0;i<els.length;i++){ var el=els[i]; if(el.id){ data[el.id]=(el.type==='checkbox')?el.checked:el.value; } }

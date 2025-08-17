@@ -227,37 +227,5 @@
 <script src="lib/html-docx.js"></script>
 <script src="app-inline.js" defer></script>
 
-<script>
-  window.exportDocx = function(html) {
-    if (window.htmlDocx) { 
-      var blob = window.htmlDocx.asBlob(html);
-      var a = document.createElement('a'); 
-      a.href = URL.createObjectURL(blob); 
-      a.download = 'Project-Triage.docx';
-      document.body.appendChild(a);
-      a.click();
-      setTimeout(() => URL.revokeObjectURL(a.href), 100);
-      a.remove();
-    } else {
-      alert('DOCX export needs local libraries:n- PizZip + Docxtemplater for template merge, orn- html-docx.js for HTML→DOCX.');
-    }
-  };
-
-  window.saveForm = function(){
-    var data = {}; document.querySelectorAll('input,textarea,select').forEach(el=>{ if(el.id) data[el.id] = (el.type==='checkbox')? el.checked : el.value; });
-    localStorage.setItem('projectForms.v3e.triage', JSON.stringify(data));
-    alert('Saved.');
-  };
-
-  window.loadForm = function(){
-    var raw = localStorage.getItem('projectForms.v3e.triage');
-    if(!raw){ alert('No saved data.'); return; }
-    try{ var data = JSON.parse(raw); }catch(e){ alert('Corrupt saved data'); return; }
-    Object.keys(data).forEach(id=>{ var el=document.getElementById(id); if(!el) return; if(el.type==='checkbox') el.checked=!!data[id]; else el.value=data[id]; });
-    alert('Loaded.');
-  };
-</script>
-
-
 </body>
 </html>
