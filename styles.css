@@ -1,0 +1,66 @@
+/* Project Forms Starter Kit v2 — styles.css (fully offline) */
+:root{
+  --w: 980px;
+  --accent: #0f6d78;
+  --muted: #667085;
+  --gap: 14px;
+}
+*{box-sizing:border-box}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.45;margin:0;background:#f6f7fb;color:#111}
+
+/* Hide print chrome on screen */
+.print-header,.print-footer{display:none}
+
+.header{position:sticky;top:0;background:#fff;border-bottom:1px solid #e8e9ef;z-index:10}
+.header .inner{max-width:var(--w);margin:0 auto;padding:10px 16px;display:flex;gap:12px;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px}
+.brand img{height:28px}
+.brand h1{font-size:16px;margin:0;font-weight:700}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button{appearance:none;border:1px solid #d0d3db;background:#fff;border-radius:10px;padding:8px 10px;font-weight:700;cursor:pointer;font-size:12px}
+button.primary{background:#1b63ff;border-color:#1b63ff;color:#fff}
+#save-status{font-size:12px;color:var(--muted);margin-right:auto}
+.container{max-width:var(--w);margin:18px auto 64px;padding:0 16px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tabs button{border-radius:999px;padding:8px 12px}
+.tabs button.active{background:#e6f3f5;border-color:#bfe4e8;color:#064a50}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.card{background:#fff;border-radius:14px;padding:18px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:var(--gap)}
+.col-3{grid-column:span 3}.col-4{grid-column:span 4}.col-6{grid-column:span 6}.col-8{grid-column:span 8}.col-12{grid-column:span 12}
+label{font-size:12px;font-weight:900;color:var(--accent);display:block;margin:10px 0 6px;text-transform:uppercase;letter-spacing:.2px}
+input[type="text"],input[type="date"],textarea,select{width:100%;padding:10px 12px;border:1px solid #dfe1e7;border-radius:10px;background:#fff;font-size:14px}
+textarea{min-height:96px;resize:vertical}
+.two-line{min-height:48px}
+.row{margin-bottom:10px;break-inside:avoid;page-break-inside:avoid}
+.section-title{font-weight:900;color:var(--accent);background:#eef7f8;border-radius:10px;padding:6px 10px;margin:18px 0 8px}
+.help{font-size:12px;color:var(--muted)}
+.footer-note{font-size:12px;color:#555;margin-top:30px}
+
+/* Print/PDF layout only when printing */
+@media print{
+  @page{margin:3cm 2.5cm}
+  .header,.tabs,.toolbar{display:none!important}
+  .print-header,.print-footer{display:block;position:fixed;left:0;right:0;color:#333}
+  .print-header{top:0;height:2.2cm}
+  .print-footer{bottom:0;height:1.6cm;font-size:10px}
+  .print-header .rule{border-top:1px solid #e6e6e6;margin-top:1.6cm}
+  .print-title{text-align:center;font-weight:700;margin-top:.4cm}
+  .print-footer .row{display:flex;justify-content:space-between;align-items:center;margin:0 2.5cm}
+  .page-numbers:after{content:"Page " counter(page) " of " counter(pages)}
+  main{margin-top:2.8cm;margin-bottom:1.8cm}
+  .tab-break{page-break-before:always}
+}
+
+
+/* === v3 layout additions === */
+.app{display:flex; max-width:var(--w, 1100px); margin: 0 auto;}
+.sidebar{width:260px; flex:0 0 260px; border-right:1px solid #e8e9ef; background:#fff; padding:12px; position:sticky; top:56px; height:calc(100vh - 56px); overflow:auto}
+.content{flex:1; padding:16px 20px; min-height:60vh;}
+.sidebar-title{font-weight:700; margin-bottom:8px}
+#form-list a{display:block; padding:8px 10px; border-radius:8px; text-decoration:none; color:inherit; margin-bottom:6px}
+#form-list a.active{background:#eef2ff; font-weight:600}
+.sidebar-actions{margin-top:16px; font-size:12px; color:#555}
+.filepick{display:block; padding:8px; border:1px dashed #ccc; border-radius:8px; cursor:pointer}
+.filepick input{display:none}

@@ -1,0 +1,9 @@
+{
+  "forms": [
+    {
+      "id": "triage",
+      "title": "Project Triage",
+      "path": "forms/triage.html"
+    }
+  ]
+}

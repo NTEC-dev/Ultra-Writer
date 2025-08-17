@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Project Forms</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <div class="print-header">
+    <div style="margin:0 2.5cm;">
+      <img alt="WRc logo" src="assets/logo.png" style="height:24px; width:auto; position:absolute; top:1.0cm; left:2.5cm;">
+      <div class="print-title" id="print-title">Project Forms</div>
+      <div class="rule"></div>
+    </div>
+  </div>
+  <div class="print-footer">
+    <div class="row">
+      <div><strong>WRc</strong> — Internal Forms</div>
+      <div class="page-numbers"></div>
+    </div>
+  </div>
+
+  <header class="header">
+    <div class="inner">
+      <div class="brand">
+        <img src="assets/logo.png" alt="WRc">
+        <h1>Project Forms</h1>
+      </div>
+      <div class="toolbar">
+        <button id="btn-save" onclick="saveForm()" class="btn">Save</button>
+        <button id="btn-load" onclick="loadForm()" class="btn">Load</button>
+        <button id="btn-print" onclick="printPDF()" class="btn">Print/PDF</button>
+        <button id="btn-rtf" onclick="exportRTF()" class="btn btn-primary">Export RTF</button>
+        <button id="btn-docx" onclick="exportDOCX()" class="btn btn-primary">Export DOCX</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="app">
+    <aside class="sidebar">
+  <div class="sidebar-title">Forms</div>
+  <nav id="form-list"><a class="active" data-id="triage">Project Triage</a></nav>
+</aside>
+    <main id="content" class="content"><h2 style="margin:0 0 12px 0;">Project Triage</h2>
+<nav class="tabs">
+      <button type="button" class="active" data-tab="decision" onclick="switchTab('decision')">Decision</button>
+      <button type="button" data-tab="plan" onclick="switchTab('plan')">Plan</button>
+      <button type="button" data-tab="risks" onclick="switchTab('risks')">Risks</button>
+    </nav>
+
+    <!-- Decision -->
+    <section id="tab-decision" class="tab-panel active">
+      <div class="card">
+        <div class="grid">
+          <div class="col-12"><label>Project title *</label><input id="title" type="text" required></div>
+          <div class="col-4"><label>Project FP No.</label><input id="fpno" type="text"></div>
+          <div class="col-4"><label>Owner</label><input id="owner" type="text"></div>
+          <div class="col-4"><label>Stage</label>
+            <select id="stage"><option value="">—</option><option>Idea</option><option>Scoping</option><option>Bid</option><option>Live</option><option>Review</option></select>
+          </div>
+          <div class="col-6"><label>Sponsor / Client *</label><input id="sponsor" type="text" required></div>
+          <div class="col-3"><label>Start date</label><input id="startDate" type="date"></div>
+          <div class="col-3"><label>End date</label><input id="endDate" type="date"></div>
+
+          <div class="col-12"><label>Executive Summary</label><textarea id="exec"></textarea></div>
+          <div class="col-12"><label>Why participate (need/opportunity & strategic fit) *</label><textarea id="why" required></textarea></div>
+          <div class="col-12"><label>What we will deliver (scope, outputs, success) *</label><textarea id="deliver" required></textarea></div>
+          <div class="col-12"><label>Effort & resources</label><textarea id="effort"></textarea></div>
+          <div class="col-12"><label>Budget & funding (rough order of magnitude)</label><textarea id="budget"></textarea></div>
+          <div class="col-12"><label>Expected value</label><textarea id="value"></textarea></div>
+
+          <div class="col-12 section-title">Top risks & dependencies (max 3)</div>
+          <div class="col-6"><label>Risk 1</label><textarea id="risk1" class="two-line"></textarea></div>
+          <div class="col-6"><label>Mitigation 1</label><textarea id="mit1" class="two-line"></textarea></div>
+          <div class="col-6"><label>Risk 2</label><textarea id="risk2" class="two-line"></textarea></div>
+          <div class="col-6"><label>Mitigation 2</label><textarea id="mit2" class="two-line"></textarea></div>
+          <div class="col-6"><label>Risk 3</label><textarea id="risk3" class="two-line"></textarea></div>
+          <div class="col-6"><label>Mitigation 3</label><textarea id="mit3" class="two-line"></textarea></div>
+
+          <div class="col-4"><label>Decision</label>
+            <select id="decision"><option value="">—</option><option>Go</option><option>No-go</option><option>Defer</option></select>
+          </div>
+          <div class="col-8"><label>Conditions / caveats (if any)</label><textarea id="conditions" class="two-line"></textarea></div>
+
+          <div class="col-12 section-title">Next steps & owners (first 3)</div>
+          <div class="col-6"><label>Action 1</label><textarea id="act1" class="two-line"></textarea></div>
+          <div class="col-3"><label>Owner 1</label><input id="own1" type="text"></div>
+          <div class="col-3"><label>Due 1</label><input id="due1" type="date"></div>
+          <div class="col-6"><label>Action 2</label><textarea id="act2" class="two-line"></textarea></div>
+          <div class="col-3"><label>Owner 2</label><input id="own2" type="text"></div>
+          <div class="col-3"><label>Due 2</label><input id="due2" type="date"></div>
+          <div class="col-6"><label>Action 3</label><textarea id="act3" class="two-line"></textarea></div>
+          <div class="col-3"><label>Owner 3</label><input id="own3" type="text"></div>
+          <div class="col-3"><label>Due 3</label><input id="due3" type="date"></div>
+
+          <div class="col-12 footer-note">Created by Imad Ahmed, 2025</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Plan -->
+    <section id="tab-plan" class="tab-panel">
+      <div class="card">
+        <div class="grid">
+          <div class="col-12"><label>Overall approach</label><textarea id="plan_approach"></textarea></div>
+          <div class="col-6"><label>Key milestones</label><textarea id="plan_milestones"></textarea></div>
+          <div class="col-6"><label>Resources / roles</label><textarea id="plan_resources"></textarea></div>
+          <div class="col-3"><label>Kickoff</label><input id="plan_kickoff" type="date"></div>
+          <div class="col-3"><label>Phase 1</label><input id="plan_p1" type="date"></div>
+          <div class="col-3"><label>Phase 2</label><input id="plan_p2" type="date"></div>
+          <div class="col-3"><label>Wrap</label><input id="plan_wrap" type="date"></div>
+          <div class="col-12 footer-note">Add/rename fields as you like — they will be captured in JSON/RTF.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Risks -->
+    <section id="tab-risks" class="tab-panel">
+      <div class="card">
+        <div class="grid">
+          <div class="col-12"><label>Risk register (free text)</label><textarea id="risks_register" placeholder="Use any format (one per line, or bullets)"></textarea></div>
+          <div class="col-12 section-title">Top issues</div>
+          <div class="col-6"><label>Issue 1</label><textarea id="issues_i1" class="two-line"></textarea></div>
+          <div class="col-6"><label>Owner</label><input id="issues_o1" type="text"></div>
+          <div class="col-6"><label>Issue 2</label><textarea id="issues_i2" class="two-line"></textarea></div>
+          <div class="col-6"><label>Owner</label><input id="issues_o2" type="text"></div>
+          <div class="col-6"><label>Issue 3</label><textarea id="issues_i3" class="two-line"></textarea></div>
+          <div class="col-6"><label>Owner</label><input id="issues_o3" type="text"></div>
+          <div class="col-12 footer-note">Tip: Add probability/impact dropdowns if you need scoring.</div>
+        </div>
+      </div>
+    </section>
+</main>
+  <template id="form-triage"><nav class="tabs">
+      <button class="active" data-tab="decision">Decision<\/button>
+      <button data-tab="plan">Plan<\/button>
+      <button data-tab="risks">Risks<\/button>
+    <\/nav>
+
+    <!-- Decision -->
+    <section id="tab-decision" class="tab-panel active">
+      <div class="card">
+        <div class="grid">
+          <div class="col-12"><label>Project title *<\/label><input id="title" type="text" required><\/div>
+          <div class="col-4"><label>Project FP No.<\/label><input id="fpno" type="text"><\/div>
+          <div class="col-4"><label>Owner<\/label><input id="owner" type="text"><\/div>
+          <div class="col-4"><label>Stage<\/label>
+            <select id="stage"><option value="">—<\/option><option>Idea<\/option><option>Scoping<\/option><option>Bid<\/option><option>Live<\/option><option>Review<\/option><\/select>
+          <\/div>
+          <div class="col-6"><label>Sponsor / Client *<\/label><input id="sponsor" type="text" required><\/div>
+          <div class="col-3"><label>Start date<\/label><input id="startDate" type="date"><\/div>
+          <div class="col-3"><label>End date<\/label><input id="endDate" type="date"><\/div>
+
+          <div class="col-12"><label>Executive Summary<\/label><textarea id="exec"><\/textarea><\/div>
+          <div class="col-12"><label>Why participate (need/opportunity & strategic fit) *<\/label><textarea id="why" required><\/textarea><\/div>
+          <div class="col-12"><label>What we will deliver (scope, outputs, success) *<\/label><textarea id="deliver" required><\/textarea><\/div>
+          <div class="col-12"><label>Effort & resources<\/label><textarea id="effort"><\/textarea><\/div>
+          <div class="col-12"><label>Budget & funding (rough order of magnitude)<\/label><textarea id="budget"><\/textarea><\/div>
+          <div class="col-12"><label>Expected value<\/label><textarea id="value"><\/textarea><\/div>
+
+          <div class="col-12 section-title">Top risks & dependencies (max 3)<\/div>
+          <div class="col-6"><label>Risk 1<\/label><textarea id="risk1" class="two-line"><\/textarea><\/div>
+          <div class="col-6"><label>Mitigation 1<\/label><textarea id="mit1" class="two-line"><\/textarea><\/div>
+          <div class="col-6"><label>Risk 2<\/label><textarea id="risk2" class="two-line"><\/textarea><\/div>
+          <div class="col-6"><label>Mitigation 2<\/label><textarea id="mit2" class="two-line"><\/textarea><\/div>
+          <div class="col-6"><label>Risk 3<\/label><textarea id="risk3" class="two-line"><\/textarea><\/div>
+          <div class="col-6"><label>Mitigation 3<\/label><textarea id="mit3" class="two-line"><\/textarea><\/div>
+
+          <div class="col-4"><label>Decision<\/label>
+            <select id="decision"><option value="">—<\/option><option>Go<\/option><option>No-go<\/option><option>Defer<\/option><\/select>
+          <\/div>
+          <div class="col-8"><label>Conditions / caveats (if any)<\/label><textarea id="conditions" class="two-line"><\/textarea><\/div>
+
+          <div class="col-12 section-title">Next steps & owners (first 3)<\/div>
+          <div class="col-6"><label>Action 1<\/label><textarea id="act1" class="two-line"><\/textarea><\/div>
+          <div class="col-3"><label>Owner 1<\/label><input id="own1" type="text"><\/div>
+          <div class="col-3"><label>Due 1<\/label><input id="due1" type="date"><\/div>
+          <div class="col-6"><label>Action 2<\/label><textarea id="act2" class="two-line"><\/textarea><\/div>
+          <div class="col-3"><label>Owner 2<\/label><input id="own2" type="text"><\/div>
+          <div class="col-3"><label>Due 2<\/label><input id="due2" type="date"><\/div>
+          <div class="col-6"><label>Action 3<\/label><textarea id="act3" class="two-line"><\/textarea><\/div>
+          <div class="col-3"><label>Owner 3<\/label><input id="own3" type="text"><\/div>
+          <div class="col-3"><label>Due 3<\/label><input id="due3" type="date"><\/div>
+
+          <div class="col-12 footer-note">Created by Imad Ahmed, 2025<\/div>
+        <\/div>
+      <\/div>
+    <\/section>
+
+    <!-- Plan -->
+    <section id="tab-plan" class="tab-panel">
+      <div class="card">
+        <div class="grid">
+          <div class="col-12"><label>Overall approach<\/label><textarea id="plan_approach"><\/textarea><\/div>
+          <div class="col-6"><label>Key milestones<\/label><textarea id="plan_milestones"><\/textarea><\/div>
+          <div class="col-6"><label>Resources / roles<\/label><textarea id="plan_resources"><\/textarea><\/div>
+          <div class="col-3"><label>Kickoff<\/label><input id="plan_kickoff" type="date"><\/div>
+          <div class="col-3"><label>Phase 1<\/label><input id="plan_p1" type="date"><\/div>
+          <div class="col-3"><label>Phase 2<\/label><input id="plan_p2" type="date"><\/div>
+          <div class="col-3"><label>Wrap<\/label><input id="plan_wrap" type="date"><\/div>
+          <div class="col-12 footer-note">Add/rename fields as you like — they will be captured in JSON/RTF.<\/div>
+        <\/div>
+      <\/div>
+    <\/section>
+
+    <!-- Risks -->
+    <section id="tab-risks" class="tab-panel">
+      <div class="card">
+        <div class="grid">
+          <div class="col-12"><label>Risk register (free text)<\/label><textarea id="risks_register" placeholder="Use any format (one per line, or bullets)"><\/textarea><\/div>
+          <div class="col-12 section-title">Top issues<\/div>
+          <div class="col-6"><label>Issue 1<\/label><textarea id="issues_i1" class="two-line"><\/textarea><\/div>
+          <div class="col-6"><label>Owner<\/label><input id="issues_o1" type="text"><\/div>
+          <div class="col-6"><label>Issue 2<\/label><textarea id="issues_i2" class="two-line"><\/textarea><\/div>
+          <div class="col-6"><label>Owner<\/label><input id="issues_o2" type="text"><\/div>
+          <div class="col-6"><label>Issue 3<\/label><textarea id="issues_i3" class="two-line"><\/textarea><\/div>
+          <div class="col-6"><label>Owner<\/label><input id="issues_o3" type="text"><\/div>
+          <div class="col-12 footer-note">Tip: Add probability/impact dropdowns if you need scoring.<\/div>
+        <\/div>
+      <\/div>
+    <\/section></template>
+  </div>
+
+  <script src="lib/pizzip.min.js"></script>
+  <script src="lib/docxtemplater.min.js"></script>
+  <script src="lib/html-docx.js"></script>
+  
+
+
+
+<script src="app-inline.js" defer></script>
+</body></html>';
+      var blob = window.htmlDocx.asBlob(html);
+      var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'Project-Triage.docx';
+      document.body.appendChild(a); a.click(); URL.revokeObjectURL(a.href); a.remove();
+    }else{
+      alert('DOCX export needs local libraries:\n- PizZip + Docxtemplater for template merge, or\n- html-docx.js for HTML→DOCX.');
+    }
+  };
+  window.saveForm = function(){
+    var data = {}; document.querySelectorAll('input,textarea,select').forEach(el=>{ if(el.id) data[el.id] = (el.type==='checkbox')? el.checked : el.value; });
+    localStorage.setItem('projectForms.v3e.triage', JSON.stringify(data));
+    alert('Saved.');
+  };
+  window.loadForm = function(){
+    var raw = localStorage.getItem('projectForms.v3e.triage');
+    if(!raw){ alert('No saved data.'); return; }
+    try{ var data = JSON.parse(raw); }catch(e){ alert('Corrupt saved data'); return; }
+    Object.keys(data).forEach(id=>{ var el=document.getElementById(id); if(!el) return; if(el.type==='checkbox') el.checked=!!data[id]; else el.value=data[id]; });
+    alert('Loaded.');
+  };
+})();
+</script>
+
+
+
+
+<script src="app-inline.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<nav class="tabs">
+      <button class="active" data-tab="decision">Decision</button>
+      <button data-tab="plan">Plan</button>
+      <button data-tab="risks">Risks</button>
+    </nav>
+
+    <!-- Decision -->
+    <section id="tab-decision" class="tab-panel active">
+      <div class="card">
+        <div class="grid">
+          <div class="col-12"><label>Project title *</label><input id="title" type="text" required></div>
+          <div class="col-4"><label>Project FP No.</label><input id="fpno" type="text"></div>
+          <div class="col-4"><label>Owner</label><input id="owner" type="text"></div>
+          <div class="col-4"><label>Stage</label>
+            <select id="stage"><option value="">—</option><option>Idea</option><option>Scoping</option><option>Bid</option><option>Live</option><option>Review</option></select>
+          </div>
+          <div class="col-6"><label>Sponsor / Client *</label><input id="sponsor" type="text" required></div>
+          <div class="col-3"><label>Start date</label><input id="startDate" type="date"></div>
+          <div class="col-3"><label>End date</label><input id="endDate" type="date"></div>
+
+          <div class="col-12"><label>Executive Summary</label><textarea id="exec"></textarea></div>
+          <div class="col-12"><label>Why participate (need/opportunity & strategic fit) *</label><textarea id="why" required></textarea></div>
+          <div class="col-12"><label>What we will deliver (scope, outputs, success) *</label><textarea id="deliver" required></textarea></div>
+          <div class="col-12"><label>Effort & resources</label><textarea id="effort"></textarea></div>
+          <div class="col-12"><label>Budget & funding (rough order of magnitude)</label><textarea id="budget"></textarea></div>
+          <div class="col-12"><label>Expected value</label><textarea id="value"></textarea></div>
+
+          <div class="col-12 section-title">Top risks & dependencies (max 3)</div>
+          <div class="col-6"><label>Risk 1</label><textarea id="risk1" class="two-line"></textarea></div>
+          <div class="col-6"><label>Mitigation 1</label><textarea id="mit1" class="two-line"></textarea></div>
+          <div class="col-6"><label>Risk 2</label><textarea id="risk2" class="two-line"></textarea></div>
+          <div class="col-6"><label>Mitigation 2</label><textarea id="mit2" class="two-line"></textarea></div>
+          <div class="col-6"><label>Risk 3</label><textarea id="risk3" class="two-line"></textarea></div>
+          <div class="col-6"><label>Mitigation 3</label><textarea id="mit3" class="two-line"></textarea></div>
+
+          <div class="col-4"><label>Decision</label>
+            <select id="decision"><option value="">—</option><option>Go</option><option>No-go</option><option>Defer</option></select>
+          </div>
+          <div class="col-8"><label>Conditions / caveats (if any)</label><textarea id="conditions" class="two-line"></textarea></div>
+
+          <div class="col-12 section-title">Next steps & owners (first 3)</div>
+          <div class="col-6"><label>Action 1</label><textarea id="act1" class="two-line"></textarea></div>
+          <div class="col-3"><label>Owner 1</label><input id="own1" type="text"></div>
+          <div class="col-3"><label>Due 1</label><input id="due1" type="date"></div>
+          <div class="col-6"><label>Action 2</label><textarea id="act2" class="two-line"></textarea></div>
+          <div class="col-3"><label>Owner 2</label><input id="own2" type="text"></div>
+          <div class="col-3"><label>Due 2</label><input id="due2" type="date"></div>
+          <div class="col-6"><label>Action 3</label><textarea id="act3" class="two-line"></textarea></div>
+          <div class="col-3"><label>Owner 3</label><input id="own3" type="text"></div>
+          <div class="col-3"><label>Due 3</label><input id="due3" type="date"></div>
+
+          <div class="col-12 footer-note">Created by Imad Ahmed, 2025</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Plan -->
+    <section id="tab-plan" class="tab-panel">
+      <div class="card">
+        <div class="grid">
+          <div class="col-12"><label>Overall approach</label><textarea id="plan_approach"></textarea></div>
+          <div class="col-6"><label>Key milestones</label><textarea id="plan_milestones"></textarea></div>
+          <div class="col-6"><label>Resources / roles</label><textarea id="plan_resources"></textarea></div>
+          <div class="col-3"><label>Kickoff</label><input id="plan_kickoff" type="date"></div>
+          <div class="col-3"><label>Phase 1</label><input id="plan_p1" type="date"></div>
+          <div class="col-3"><label>Phase 2</label><input id="plan_p2" type="date"></div>
+          <div class="col-3"><label>Wrap</label><input id="plan_wrap" type="date"></div>
+          <div class="col-12 footer-note">Add/rename fields as you like — they will be captured in JSON/RTF.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Risks -->
+    <section id="tab-risks" class="tab-panel">
+      <div class="card">
+        <div class="grid">
+          <div class="col-12"><label>Risk register (free text)</label><textarea id="risks_register" placeholder="Use any format (one per line, or bullets)"></textarea></div>
+          <div class="col-12 section-title">Top issues</div>
+          <div class="col-6"><label>Issue 1</label><textarea id="issues_i1" class="two-line"></textarea></div>
+          <div class="col-6"><label>Owner</label><input id="issues_o1" type="text"></div>
+          <div class="col-6"><label>Issue 2</label><textarea id="issues_i2" class="two-line"></textarea></div>
+          <div class="col-6"><label>Owner</label><input id="issues_o2" type="text"></div>
+          <div class="col-6"><label>Issue 3</label><textarea id="issues_i3" class="two-line"></textarea></div>
+          <div class="col-6"><label>Owner</label><input id="issues_o3" type="text"></div>
+          <div class="col-12 footer-note">Tip: Add probability/impact dropdowns if you need scoring.</div>
+        </div>
+      </div>
+    </section>
