@@ -49,6 +49,7 @@ if(window.PizZip && window.docxtemplater){
     .then(r => r.arrayBuffer())
     .then(buf => { window.templateArrayBuffer = buf; })
     .catch(() => alert('Could not load WRC-General.dotx (Docx does not load locally without serve)'));
+  alert("Begin")
 }
 
 window.exportDOCX = function(){
