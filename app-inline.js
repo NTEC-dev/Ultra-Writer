@@ -16,8 +16,6 @@ function _get(id){ var el=_scope().querySelector('#'+id); if(!el) return ''; if(
 function _set(id,v){ var el=_scope().querySelector('#'+id); if(!el) return; if(el.type==='checkbox') el.checked=!!v; else el.value=v; }
 function _downloadBlob(blob,name){ var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click(); URL.revokeObjectURL(a.href); a.remove(); }
 
-
-
 window.printPDF = function(){ var prev=document.title; var title=_get('title')||'Project'; var fp=_get('fpno')||''; document.title='Project-Triage-'+(fp||title); window.print(); setTimeout(function(){ document.title=prev; }, 500); };
 
 window.exportRTF = function(){
@@ -41,43 +39,98 @@ window.exportRTF = function(){
   _downloadBlob(new Blob([r],{type:'application/rtf'}),'Project-Triage.rtf'); 
 };
 
-window.templateArrayBuffer = null;
+window.exportDOCX = function(){
+  const contentArea = document.getElementById('content');
+  const getValue = (id) => contentArea.querySelector(`#${id}`)?.value || '';
 
-// preload template for load DOCX
-if(window.PizZip && window.docxtemplater){
-  fetch('WRC-General.dotx')
-    .then(r => r.arrayBuffer())
-    .then(buf => { window.templateArrayBuffer = buf; })
-    .catch(() => alert('Could not load WRC-General.dotx (Docx does not load locally without serve)'));
-  alert("Begin")
+  const title = getValue('title');
+  const filename = `${title.replace(/[^a-z0-9]/gi, '_') || 'Project-Triage'}.doc`;
+
+  const formatText = (text) => text.replace(/\n/g, '<br>');
+
+  const content = `
+    <h1>Project Triage: ${title}</h1>
+    <hr>
+    
+    <h2>Decision</h2>
+    <table border="1" cellpadding="5" style="border-collapse: collapse; width: 100%;">
+        <tr><td width="30%"><strong>Project FP No.</strong></td><td>${getValue('fpno')}</td></tr>
+        <tr><td><strong>Owner</strong></td><td>${getValue('owner')}</td></tr>
+        <tr><td><strong>Stage</strong></td><td>${getValue('stage')}</td></tr>
+        <tr><td><strong>Sponsor / Client</strong></td><td>${getValue('sponsor')}</td></tr>
+        <tr><td><strong>Start Date</strong></td><td>${getValue('startDate')}</td></tr>
+        <tr><td><strong>End Date</strong></td><td>${getValue('endDate')}</td></tr>
+    </table>
+
+    <h3>Executive Summary</h3>
+    <p>${formatText(getValue('exec'))}</p>
+
+    <h3>Why participate (need/opportunity & strategic fit)</h3>
+    <p>${formatText(getValue('why'))}</p>
+
+    <h3>What we will deliver (scope, outputs, success)</h3>
+    <p>${formatText(getValue('deliver'))}</p>
+    
+    <h3>Top risks & dependencies</h3>
+    <table border="1" cellpadding="5" style="border-collapse: collapse; width: 100%;">
+        <tr><th>Risk</th><th>Mitigation</th></tr>
+        <tr><td>${formatText(getValue('risk1'))}</td><td>${formatText(getValue('mit1'))}</td></tr>
+        <tr><td>${formatText(getValue('risk2'))}</td><td>${formatText(getValue('mit2'))}</td></tr>
+        <tr><td>${formatText(getValue('risk3'))}</td><td>${formatText(getValue('mit3'))}</td></tr>
+    </table>
+    
+    <h3>Next steps & owners</h3>
+    <table border="1" cellpadding="5" style="border-collapse: collapse; width: 100%;">
+        <tr><th>Action</th><th>Owner</th><th>Due</th></tr>
+        <tr><td>${formatText(getValue('act1'))}</td><td>${getValue('own1')}</td><td>${getValue('due1')}</td></tr>
+        <tr><td>${formatText(getValue('act2'))}</td><td>${getValue('own2')}</td><td>${getValue('due2')}</td></tr>
+        <tr><td>${formatText(getValue('act3'))}</td><td>${getValue('own3')}</td><td>${getValue('due3')}</td></tr>
+    </table>
+    
+    <br/>
+    <hr>
+
+    <h2>Plan</h2>
+    <h3>Overall approach</h3>
+    <p>${formatText(getValue('plan_approach'))}</p>
+    <h3>Key milestones</h3>
+    <p>${formatText(getValue('plan_milestones'))}</p>
+
+    <br/>
+    <hr>
+    
+    <h2>Risks</h2>
+    <h3>Risk register</h3>
+    <p>${formatText(getValue('risks_register'))}</p>
+    <h3>Top issues</h3>
+    <table border="1" cellpadding="5" style="border-collapse: collapse; width: 100%;">
+        <tr><th>Issue</th><th>Owner</th></tr>
+        <tr><td>${formatText(getValue('issues_i1'))}</td><td>${getValue('issues_o1')}</td></tr>
+        <tr><td>${formatText(getValue('issues_i2'))}</td><td>${getValue('issues_o2')}</td></tr>
+        <tr><td>${formatText(getValue('issues_i3'))}</td><td>${getValue('issues_o3')}</td></tr>
+    </table>
+  `;
+
+  const preHtml = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export HTML To Doc</title></head><body>";
+  const postHtml = "</body></html>";
+  const html = preHtml + content + postHtml;
+
+  const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+  const url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(html);
+  const downloadLink = document.createElement("a");
+  document.body.appendChild(downloadLink);
+  
+  if (navigator.msSaveOrOpenBlob) {
+      navigator.msSaveOrOpenBlob(blob, filename);
+  } else {
+      downloadLink.href = url;
+      downloadLink.download = filename;
+      downloadLink.click();
+  }
+  
+  document.body.removeChild(downloadLink);
 }
 
-window.exportDOCX = function(){
-  if(window.PizZip && window.docxtemplater){
-    if(!window.templateArrayBuffer){
-      alert('Template not loaded yet!');
-      return;
-    }
-    try{
-      var zip = new PizZip(window.templateArrayBuffer);
-      var doc = new window.docxtemplater(zip, { paragraphLoop:true, linebreaks:true });
-      var data = {};
-      document.querySelectorAll('input,textarea,select').forEach(el => {
-        if(el.id) data[el.id] = (el.type==='checkbox') ? el.checked : el.value;
-      });
-      doc.setData(data); 
-      doc.render();
-      _downloadBlob(doc.getZip().generate({type:'blob'}), 'Project-Triage.docx');
-    }catch(e){
-      alert('DOCX template merge failed: ' + e.message);
-    }
-  } else if(window.htmlDocx && window.htmlDocx.asBlob){
-    var html = '<!doctype html><html><head><meta charset="utf-8"></head><body>'+_scope().innerHTML+'</body></html>';
-    _downloadBlob(window.htmlDocx.asBlob(html), 'Project-Triage.docx');
-  } else{
-    alert('DOCX export needs either PizZip+Docxtemplater (template) or html-docx.js (HTML→DOCX).');
-  }
-};
 window.saveForm = function(){
   var data={}; var els=_scope().querySelectorAll('input,textarea,select');
   for(var i=0;i<els.length;i++){ var el=els[i]; if(el.id){ data[el.id]=(el.type==='checkbox')?el.checked:el.value; } }
